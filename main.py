@@ -164,6 +164,7 @@ def process_data(club_name, zone, date, api_data, open_min, close_min):
             "total_peak_h":     total_peak_h,
             "total_offpeak_h":  total_offpeak_h,
             "total_h":          total_h,
+            "day_of_week":      datetime.strptime(date, "%Y-%m-%d").strftime("%A"),
         })
     return rows
 
