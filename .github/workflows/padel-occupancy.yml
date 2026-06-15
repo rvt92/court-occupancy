@@ -1,0 +1,29 @@
+name: Padel Occupancy Daily Report
+
+on:
+  schedule:
+    - cron: "30 23 * * *"  # 06:30 AM Bangkok time (UTC+7)
+  workflow_dispatch:       # allows manual trigger from GitHub UI
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests gspread google-auth pytz
+
+      - name: Run occupancy script
+        env:
+          SHEET_ID:          ${{ secrets.SHEET_ID }}
+          EMAIL_FROM:        ${{ secrets.EMAIL_FROM }}
+          EMAIL_APP_PASS:    ${{ secrets.EMAIL_APP_PASS }}
+          EMAIL_TO:          ${{ secrets.EMAIL_TO }}
+          GOOGLE_CREDS_JSON: ${{ secrets.GOOGLE_CREDS_JSON }}
+        run: python main_v3_github_actions.py
