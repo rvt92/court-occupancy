@@ -81,7 +81,6 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
     "Accept": "application/json, text/plain, */*",
     "Accept-Language": "en-US,en;q=0.9",
-    "Accept-Encoding": "gzip, deflate, br",
     "Referer": "https://playtomic.com/",
     "Origin": "https://playtomic.com",
 }
@@ -92,8 +91,7 @@ def fetch_availability(tenant_id, date):
         f"?tenant_id={tenant_id}&date={date}&sport_id=PADEL"
     )
     r = requests.get(url, headers=HEADERS, timeout=15)
-    if not r.ok:
-        print(f"HTTP {r.status_code} from Playtomic — response body: {r.text[:500]}")
+    print(f"  status={r.status_code} body_len={len(r.text)} body_preview={r.text[:200]!r}")
     r.raise_for_status()
     return r.json()
 
